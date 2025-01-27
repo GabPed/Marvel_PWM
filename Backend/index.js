@@ -12,7 +12,8 @@ import offersRoutes from './routes/offers.js';
 import paymentsRoutes from './routes/payments.js';
 import charactersRoutes from './routes/characters.js';
 
-import './cronjob/characters.js'; 
+import './cronjob/characters.js';  // Percorso relativo
+
 import {authenticateToken} from './middleware/auth.js';
 
 const app = express();
