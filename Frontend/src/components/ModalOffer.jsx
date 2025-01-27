@@ -27,7 +27,7 @@ function ModalOffer({ idOffer, cardAcq, cardOff, userAcq, userOff, title, button
 
   const updateOffer = async (stato) => {
     try {
-      const response = await apiRequest(`${config.serverUrl}/offers`, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/offers`, {
         method: 'PATCH',
         body: JSON.stringify({
           idOffer,

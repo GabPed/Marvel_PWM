@@ -17,7 +17,7 @@ function CardDeleteSettings() {
         setIsLoading(true); // Imposta lo stato di caricamento su true
 
         try {
-          const response = await apiRequest(config.serverUrl + '/users', {
+          const response = await apiRequest(import.meta.env.VITE_SERVER_URL + '/users', {
             method: "DELETE",
             body: JSON.stringify({
               password: password

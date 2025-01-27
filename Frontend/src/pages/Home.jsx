@@ -38,7 +38,7 @@ function Home () {
         setLoading(true);
         try {
             // Aggiungi i parametri state e page alla richiesta
-            const response = await apiRequest(`${config.serverUrl}/payments/`, {
+            const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/payments/`, {
                 method: 'POST',
                 body: JSON.stringify({
                     crediti: crediti
@@ -63,7 +63,7 @@ function Home () {
         setLoadingStickers(true);
         try {
             // Aggiungi i parametri state e page alla richiesta
-            const response = await apiRequest(`${config.serverUrl}/albums/buyStickerPacks`, {
+            const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/albums/buyStickerPacks`, {
                 method: 'PATCH'
             }, navigate);
 

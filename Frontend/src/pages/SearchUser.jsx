@@ -38,7 +38,7 @@ function Searchusers() {
   }
 
   const fetch = async () => {
-    var request = `${config.serverUrl}/users/search/${search}`;
+    var request = `${import.meta.env.VITE_SERVER_URL}/users/search/${search}`;
     try {
       // Aggiungi i parametri state e page alla richiesta
       const response = await apiRequest(request, {

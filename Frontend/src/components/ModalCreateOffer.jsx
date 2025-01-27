@@ -37,7 +37,7 @@ function ModalCreateOffer({singleCardOff, idAcq, idOff, title = ''}) {
   const dispatch = useDispatch();
 
   const getCardsAcq = async () => {
-    var request = `${config.serverUrl}/offers/cardstooffer/${idOff}?page=${pageAcq}`
+    var request = `${import.meta.env.VITE_SERVER_URL}/offers/cardstooffer/${idOff}?page=${pageAcq}`
     if (searchAcq && searchAcq.trim() !== '') {
       request += `&search=${searchAcq}`;
     }
@@ -83,7 +83,7 @@ function ModalCreateOffer({singleCardOff, idAcq, idOff, title = ''}) {
   }
 
   const getCardsOff = async () => {
-    var request = `${config.serverUrl}/offers/cardstoselect/${idOff}?page=${pageOff}`
+    var request = `${import.meta.env.VITE_SERVER_URL}/offers/cardstoselect/${idOff}?page=${pageOff}`
     if (searchOff && searchOff.trim() !== '') {
       request += `&search=${searchOff}`;
     }
@@ -180,7 +180,7 @@ function ModalCreateOffer({singleCardOff, idAcq, idOff, title = ''}) {
 
   const createOffer = async () => {
     try {
-      const response = await apiRequest(`${config.serverUrl}/offers`, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/offers`, {
         method: 'POST', 
         body: JSON.stringify({
           idOfferente: idOff,

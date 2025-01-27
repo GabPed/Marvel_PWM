@@ -65,7 +65,7 @@ function CardHero(card) {
     const handleOption = async (option) => {
         try {
 
-            const response = await apiRequest(`${config.serverUrl}/albums/${option}`, {
+            const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/albums/${option}`, {
                 method: 'PATCH',
                 body: JSON.stringify({ _id }),
                 headers: {

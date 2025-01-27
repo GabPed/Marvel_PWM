@@ -9,7 +9,7 @@ const AuthGuard = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await apiRequest(`${config.serverUrl}/users/`, {
+        const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/users/`, {
           method: 'GET'
         });
 

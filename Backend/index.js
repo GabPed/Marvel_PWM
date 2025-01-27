@@ -33,6 +33,7 @@ app.use('/characters',authenticateToken,charactersRoutes);
 app.use('/auth',registerRoutes);
 app.use('/avatars',avatarsRoutes);
 
+console.log(process.env.CONNECTION_URL)
 mongoose.connect(process.env.CONNECTION_URL)
 .then(() =>{
     

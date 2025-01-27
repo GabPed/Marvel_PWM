@@ -45,7 +45,7 @@ function UserAlbum() {
     setCardData([]);
   }
   const userInfo = async () => {
-    var request = `${config.serverUrl}/users/username/${username}`;
+    var request = `${import.meta.env.VITE_SERVER_URL}/users/username/${username}`;
 
     try {
       // Aggiungi i parametri state e page alla richiesta
@@ -65,7 +65,7 @@ function UserAlbum() {
   }
 
   const fetch = async () => {
-    var request = `${config.serverUrl}/albums/username/${username}?page=${page}`;
+    var request = `${import.meta.env.VITE_SERVER_URL}/albums/username/${username}?page=${page}`;
     if (search && search.trim() !== '') {
       request += `&search=${search}`;
     }

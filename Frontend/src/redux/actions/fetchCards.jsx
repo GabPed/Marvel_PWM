@@ -7,7 +7,7 @@ import { addTradedCards, resetTraded } from '../slices/tradedSlice';
 export const fetchCards = (state, page = 1, search, navigate) => async (dispatch) => {
   
   try {
-    var request = `${config.serverUrl}/albums/state/${state}?page=${page}`;
+    var request = `${import.meta.env.VITE_SERVER_URL}/albums/state/${state}?page=${page}`;
     if (search && search.trim() !== '') {
       request += `&search=${search}`;
     }

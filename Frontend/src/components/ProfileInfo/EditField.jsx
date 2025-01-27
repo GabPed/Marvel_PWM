@@ -63,7 +63,7 @@ function EditField({ visibleFields, insert, reset }) {
 
   const getSuperHero = async () => {
     try {
-      const response = await apiRequest(config.serverUrl+'/avatars', {
+      const response = await apiRequest(import.meta.env.VITE_SERVER_URL+'/avatars', {
         method: 'GET',
       }, navigate);
 
@@ -128,7 +128,7 @@ function EditField({ visibleFields, insert, reset }) {
     } // Stop if there are errors
 
     try {
-      const response = await apiRequest(`${config.serverUrl}${insert ? '/auth/register' : '/users'}`, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}${insert ? '/auth/register' : '/users'}`, {
         method: insert ? 'POST' : 'PATCH',
         body: JSON.stringify(formData),
       }, navigate);

@@ -29,7 +29,7 @@ function Login() {
     e.preventDefault();
     setSpinner(true);
     try {
-      const response = await apiRequest(`${config.serverUrl}/auth/login`, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/auth/login`, {
         method: 'POST',
         body: JSON.stringify({
           username: email, 

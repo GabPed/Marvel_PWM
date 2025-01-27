@@ -23,7 +23,7 @@ function OffersContainer({icon, title, url, titleModal, buttonModal, children}) 
 
   const getOffers = async () => {
     try {
-      const response = await apiRequest(`${config.serverUrl}/offers?${url}&page=${page}`, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/offers?${url}&page=${page}`, {
         method: 'GET',
       }, navigate);
 

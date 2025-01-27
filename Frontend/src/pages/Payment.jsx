@@ -63,7 +63,7 @@ function Payment() {
   const cancelPayments = async () => {
     setLoadingCancel(true);
     try {
-      const response = await apiRequest(`${config.serverUrl}/payments/cancel`, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/payments/cancel`, {
         method: 'PATCH'
       }, navigate);
 
@@ -83,7 +83,7 @@ function Payment() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await apiRequest(`${config.serverUrl}/payments/success`, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/payments/success`, {
         method: 'PATCH',
         body: JSON.stringify({
           payerId: queryParams.PayerID,
@@ -109,7 +109,7 @@ function Payment() {
 
   const getPayments = async () => {
     try {
-      const response = await apiRequest(`${config.serverUrl}/payments/` + queryParams.paymentId, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/payments/` + queryParams.paymentId, {
         method: 'GET'
       }, navigate);
 

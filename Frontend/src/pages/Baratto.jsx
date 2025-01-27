@@ -43,7 +43,7 @@ function Baratto() {
   }
 
   const fetch = async () => {
-    var request = `${config.serverUrl}/albums/listedcards?page=${page}`;
+    var request = `${import.meta.env.VITE_SERVER_URL}/albums/listedcards?page=${page}`;
     if (search && search.trim() !== '') {
       request += `&search=${search}`;
     }

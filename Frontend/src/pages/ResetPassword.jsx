@@ -17,7 +17,7 @@ function ResetPassword() {
     e.preventDefault();
     setSpinner(true);
     try {
-      const response = await apiRequest(`${config.serverUrl}/auth/reset-password`, {
+      const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}/auth/reset-password`, {
         method: 'POST',
         body: JSON.stringify({
           username: email
