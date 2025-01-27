@@ -4,7 +4,7 @@ import Container from '../components/Sidebar/Container';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SearchBar from '../components/SearchBar';
 import { apiRequest } from '../auth/ApiRequest';
-import config from '../config';
+
 import UsersAvatar from '../components/UsersAvatar';
 
 function Searchusers() {
