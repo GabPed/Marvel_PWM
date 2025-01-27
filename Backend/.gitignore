@@ -1,0 +1,31 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Ambiente di sviluppo
+.env
+
+# Logs
+logs/
+*.log
+
+# Dipendenze specifiche di sistema
+.pnp/
+.pnp.js
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDE/Editor
+.vscode/
+.idea/
+
+# Cartelle di build o cache
+dist/
+build/
+
+# File di backup o temporanei
+*.swp
+*.swo
