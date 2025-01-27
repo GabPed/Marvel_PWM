@@ -21,7 +21,7 @@ function Sidebar() {
   return (
   <div id="sidebar" className="offcanvas-sm offcanvas-start d-sm-flex flex-column flex-shrink-0 sticky-sm-top min-vh-100 shadow" data-bs-scroll="true" tab-index="-1">
     <div className="d-flex align-items-center justify-content-center p-4">
-      <img src={"../src/assets/avatars/"+user.favoriteHero_img} className='rounded-circle' height="55"/>
+      <img src={"/assets/avatars/"+user.favoriteHero_img} className='rounded-circle' height="55"/>
     </div>
     <ul className="nav nav-pills nav-flush flex-column mb-auto text-center">
       <NavItem link="" title="Home" icon="bi-app"></NavItem>

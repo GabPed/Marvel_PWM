@@ -125,7 +125,7 @@ function Home () {
                     <div className="d-flex justify-content-center justify-content-center align-items-center">
                         <img
                             className="rounded-circle shadow"
-                            src={"../src/assets/avatars/"+user.favoriteHero_img}
+                            src={"/assets/avatars/"+user.favoriteHero_img}
                             alt="avatar"
                             width="70"
                         /> 

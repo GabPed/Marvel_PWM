@@ -34,7 +34,7 @@ function UsersAvatar({user, size = 'md', className = ''}) {
     >
        <img
         className="rounded-circle shadow"
-        src={"../src/assets/avatars/"+user.favoriteHero_img}
+        src={"/assets/avatars/"+user.favoriteHero_img}
         alt="avatar"
         width={getSize().width}
       /> 
