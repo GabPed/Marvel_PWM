@@ -62,8 +62,8 @@ export const createPayment = async (req, res) => {
       payment_method: 'paypal'
     },
     redirect_urls: {
-      return_url: 'http://localhost:5173/payment/success',  // URL per il successo del pagamento
-      cancel_url: 'http://localhost:5173/payment/cancel'    // URL per il fallimento o cancellazione
+      return_url: process.env.DominioClient+'/payment/success',  // URL per il successo del pagamento
+      cancel_url: process.env.DominioClient+'/payment/cancel'    // URL per il fallimento o cancellazione
     },
     transactions: [{
       amount: {
