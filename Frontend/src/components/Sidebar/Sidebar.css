@@ -1,0 +1,7 @@
+#sidebar {
+    width: 4.5rem;
+}
+
+#modeSelector:hover {
+    cursor: pointer;
+}

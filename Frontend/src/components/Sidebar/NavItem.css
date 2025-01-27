@@ -1,0 +1,4 @@
+.nav-link:hover {
+    background-color: var(--bs-tertiary-bg) !important;
+}
+  

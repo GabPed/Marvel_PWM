@@ -1,0 +1,115 @@
+.card-offer {
+    transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .card-offer:hover, .card-offer.hover_effect {
+    box-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.1) !important;
+    cursor: pointer;
+    background-color: var(--bs-tertiary-bg) !important;
+  }
+  
+  .stack-left, .stack-right {
+    position: relative;
+    height: 75px;
+    width: 50px; /* Larghezza delle immagini */
+  }
+  
+  .img-stack {
+    width: 50px; /* Larghezza uniforme per tutte le immagini */
+    height: 75px; /* Altezza uniforme per tutte le immagini */
+    object-fit: cover; /* Garantisce che le immagini riempiano il contenitore mantenendo le proporzioni */
+    border: 0.4px solid black; /* Bordo delle carte */
+  }
+
+/* Per il lato sinistro */
+.stack-card-left {
+  position: absolute;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stack-card-left:nth-child(1),
+.stack-card-left:nth-child(2),
+.stack-card-left:nth-child(3) {
+  z-index: 1; /* Imposta uno z-index di base per ogni card */
+}
+
+.stack-card-left:nth-child(1):hover {
+  z-index: 10; /* Porta il primo figlio in primo piano */
+  transform: scale(1.05); /* Effetto di ingrandimento */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.stack-card-left:nth-child(2):hover {
+  z-index: 10; /* Porta il secondo figlio in primo piano */
+  transform: scale(1.05); /* Effetto di ingrandimento */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.stack-card-left:nth-child(3):hover {
+  z-index: 10; /* Porta il terzo figlio in primo piano */
+  transform: scale(1.05); /* Effetto di ingrandimento */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+/* Per il lato destro */
+.stack-card-right {
+  position: absolute;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stack-card-right:nth-child(1),
+.stack-card-right:nth-child(2),
+.stack-card-right:nth-child(3) {
+  z-index: 1; /* Imposta uno z-index di base per ogni card */
+}
+
+.stack-card-right:nth-child(1):hover {
+  z-index: 10; /* Porta il primo figlio in primo piano */
+  transform: scale(1.05);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.stack-card-right:nth-child(2):hover {
+  z-index: 10; /* Porta il secondo figlio in primo piano */
+  transform: scale(1.05);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.stack-card-right:nth-child(3):hover {
+  z-index: 10; /* Porta il terzo figlio in primo piano */
+  transform: scale(1.05);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+
+  
+  .stack-card-left:nth-child(1) {
+    top: 0;
+    z-index: 1;
+  }
+  
+  .stack-card-left:nth-child(2) {
+    left: 15px;
+    z-index: 2;
+  }
+  
+  .stack-card-left:nth-child(3) {
+    left: 30px;
+    z-index: 1;
+  }
+  
+  .stack-card-right:nth-child(1) {
+    top: 0;
+    z-index: 1;
+  }
+  
+  .stack-card-right:nth-child(2) {
+    right: 15px;
+    z-index: 2;
+  }
+  
+  .stack-card-right:nth-child(3) {
+    right: 30px;
+    z-index: 1;
+  }
+  

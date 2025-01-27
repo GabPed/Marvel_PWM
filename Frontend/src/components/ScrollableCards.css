@@ -1,0 +1,13 @@
+/* Nascondere lo scroll su desktop */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+  
+.hide-scrollbar {
+    -ms-overflow-style: none;  /* IE e Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.scrollable-cards {
+    max-width: 100%;
+}

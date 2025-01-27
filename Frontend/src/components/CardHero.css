@@ -1,0 +1,19 @@
+.card-hero {
+    transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+.card-hero:hover, .card-hero.hover_effect {
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.card-hero > .card-img-top {
+      /* L'immagine riempie la larghezza della card */
+    height: 160px;      /* Imposta un'altezza fissa */
+    /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);*/
+}
+
+.modal-card-hero {
+    z-index: 1556;
+}

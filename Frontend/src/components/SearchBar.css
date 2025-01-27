@@ -1,0 +1,48 @@
+.searchbar {
+  height: 3.1rem; /* Utilizza rem per la dimensione */
+  width: fit-content; /* Mantiene la larghezza adeguata */
+  background-color: var(--bs-tertiary-bg);
+  padding: 0.5rem; /* Usa rem per il padding */
+  transition: border-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.searchbar:hover {
+  border: var(--bs-border-width) solid var(--bs-border-color) !important;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+  cursor: pointer;
+}
+
+.search_input {
+  background: none;
+  outline: none;
+  width: 0;
+  line-height: 2.3rem; /* Dimensione relativa */
+  transition: width 0.6s ease, padding 0.3s ease;
+  caret-color: transparent;
+}
+
+.searchbar:hover .search_input {
+  padding: 0 0.5rem !important; /* Padding responsivo */
+  width: 10.5rem; /* Utilizza rem per la larghezza */
+  caret-color: var(--bs-primary);
+}
+
+.search_icon {
+  height: 2.5rem; /* Dimensione responsiva */
+  width: 2.5rem; /* Dimensione responsiva */
+  color: var(--bs-primary);
+  background: transparent; /* Sfondo trasparente per il pulsante */
+  cursor: pointer; /* Cambia il cursore su hover */
+  transition: background 0.3s, color 0.3s;
+}
+
+.searchbar:hover .search_icon {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-primary);
+}
+
+.search_icon i {
+  font-size: 1.25rem; /* Dimensione responsiva */
+}
