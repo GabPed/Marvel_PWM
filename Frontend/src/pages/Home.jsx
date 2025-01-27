@@ -203,7 +203,7 @@ function Home () {
                                         </button>
                                         <button type="button" className="btn btn-link link-secondary link-underline-secondary link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover my-0" data-bs-dismiss="modal" disabled={loading}>Cancel</button>
                                         <span className="text-secondary fw-light text-center">
-                                            For payments, use the email penny-less@marvel.com and the password Marvel24!
+                                            For payments, use the email pennyless@marvel.com and the password Marvel24!
                                         </span>
                                     </div>
                                 </div>
