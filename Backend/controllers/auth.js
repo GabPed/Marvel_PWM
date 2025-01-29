@@ -109,7 +109,7 @@ export const resetPassword = async (req, res) => {
                     email: user.email
                 },process.env.JWT_SECRET, { expiresIn: '10m' })
 
-                const resetLink = 'http://localhost:5173/reset-password/'+token;
+                const resetLink = process.env.DominioClient+'/reset-password/'+token;
 
                 // Configura il trasportatore
                 const transporter = nodemailer.createTransport({

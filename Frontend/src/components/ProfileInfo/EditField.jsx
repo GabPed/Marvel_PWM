@@ -111,12 +111,12 @@ function EditField({ visibleFields, insert, reset }) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    // Other field validations
+
     if (visibleFields.includes('username') && !username) newErrors.username = 'Username is required';
     if (visibleFields.includes('favoriteHero') && !favoriteHero) newErrors.favoriteHero = 'Favorite Hero is required';
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // True if no errors
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSignUp = async (e) => {
@@ -125,7 +125,7 @@ function EditField({ visibleFields, insert, reset }) {
     if (!validateForm()) {
       setSpinner(false);
       return;
-    } // Stop if there are errors
+    } 
 
     try {
       const response = await apiRequest(`${import.meta.env.VITE_SERVER_URL}${insert ? '/auth/register' : '/users'}`, {
@@ -161,11 +161,6 @@ function EditField({ visibleFields, insert, reset }) {
       console.error('Sign-up request error:', error);
     }
     setSpinner(false);
-  };
-  
-  const handleModal = () => {
-    modalRef.current.hide();
-    navigate('/settings');
   };
 
   return (

@@ -145,8 +145,8 @@ export const updateUser = async (req,res) => {
     }  
         //Verifica se è da modificare la password
     if(data.password) {
-            //Verifica se si tratta del token inviato per mail
-            if(!email) {
+            //Verifica che non si tratta del token inviato per mail
+            if(!email) { 
                 if(!data.oldPassword) return res.status(400).json({message: "La vecchia password non è corretta"});
                 //Estra la password corrente per verificare se corrisponde alla password passata
                 const currentUser = await User.findById(id).select('password');
