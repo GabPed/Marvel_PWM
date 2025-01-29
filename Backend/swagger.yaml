@@ -1,0 +1,1029 @@
+openapi: 3.0.0
+info:
+  title: Marvel PWM API
+  description: API per la gestione degli utenti e l'album delle figurine
+  version: 1.0.0
+tags:
+  - name: auth
+    description: API relative all'autenticazione e alla gestione degli utenti
+  - name: albums
+    description: API per la gestione dell'album delle figurine
+  - name: avatars
+    description: API relative alla gestione degli avatar
+  - name: characters
+    description: API relative alla gestione dei personaggi
+  - name: offers
+    description: API relative alla gestione delle offerte
+  - name: payments
+    description: API relative alla gestione dei pagamenti
+  - name: users
+    description: API relative alla gestione degli utenti
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Registrazione di un nuovo utente
+      description: Crea un nuovo utente e effettua il login automaticamente.
+      operationId: registerUser
+      requestBody:
+        description: Dati necessari per la registrazione di un nuovo utente
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Il nome utente scelto
+                email:
+                  type: string
+                  format: email
+                  description: L'email dell'utente
+                password:
+                  type: string
+                  description: La password scelta
+                confirmPassword:
+                  type: string
+                  description: La conferma della password
+                favoriteHero:
+                  type: string
+                  description: L'eroe preferito dell'utente
+      responses:
+        '200':
+          description: Utente registrato con successo
+        '400':
+          description: Errore di validazione dei dati
+        '500':
+          description: Errore interno del server
+
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login di un utente esistente
+      description: Permette a un utente di effettuare il login con username o email e password.
+      operationId: loginUser
+      requestBody:
+        description: Dati necessari per il login
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Il nome utente o l'email dell'utente
+                password:
+                  type: string
+                  description: La password dell'utente
+      responses:
+        '200':
+          description: Login effettuato con successo
+        '404':
+          description: Username o password errati
+        '500':
+          description: Errore interno del server
+
+  /auth/reset-password:
+    post:
+      tags:
+        - auth
+      summary: Richiesta di reset della password
+      description: Permette di richiedere un link per il reset della password via email.
+      operationId: resetPassword
+      requestBody:
+        description: Dati necessari per richiedere il reset della password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Il nome utente o l'email dell'utente
+      responses:
+        '200':
+          description: Link per il reset della password inviato con successo
+        '404':
+          description: Username o email non trovato
+        '500':
+          description: Errore interno del server
+
+  /albums:
+    get:
+      summary: Ottieni l'album dell'utente
+      description: Recupera tutte le figurine nell'album dell'utente loggato
+      tags:
+        - albums
+      responses:
+        '200':
+          description: Album recuperato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  album:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_figurina:
+                          type: string
+                        stato:
+                          type: string
+                        updatedAt:
+                          type: string
+                          format: date-time
+        '404':
+          description: Utente non trovato
+        '500':
+          description: Errore interno del server
+  /albums/listedCards:
+    get:
+      summary: Ottieni le figurine elencate per la vendita
+      description: Recupera tutte le figurine che sono state messe in vendita
+      tags:
+        - albums
+      responses:
+        '200':
+          description: Figurine elencate recuperate con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalPages:
+                    type: integer
+                  album:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        user_id:
+                          type: string
+                        id_figurina:
+                          type: string
+                        stato:
+                          type: string
+                        updatedAt:
+                          type: string
+                          format: date-time
+        '500':
+          description: Errore interno del server
+  /albums/state/{state}:
+    get:
+      summary: Ottieni l'album dell'utente filtrato per stato
+      description: Recupera tutte le figurine nell'album dell'utente filtrato per stato
+      tags:
+        - albums
+      parameters:
+        - in: path
+          name: state
+          required: true
+          schema:
+            type: string
+          description: Stato delle figurine da filtrare (es. D, S, B)
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: Numero della pagina per la paginazione
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            default: 18
+          description: Numero massimo di figurine per pagina
+        - in: query
+          name: search
+          required: false
+          schema:
+            type: string
+          description: Termini di ricerca per filtrare le figurine per nome
+      responses:
+        '200':
+          description: Album recuperato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalCards:
+                    type: integer
+                  currentPage:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  album:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_figurina:
+                          type: string
+                        stato:
+                          type: string
+                        updatedAt:
+                          type: string
+                          format: date-time
+        '404':
+          description: Utente non trovato
+        '500':
+          description: Errore interno del server
+  /albums/username/{username}:
+    get:
+      summary: Ottieni l'album di un altro utente
+      description: Recupera tutte le figurine nell'album di un utente specificato tramite username
+      tags:
+        - albums
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+          description: Username dell'utente di cui recuperare l'album
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: Numero della pagina per la paginazione
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            default: 18
+          description: Numero massimo di figurine per pagina
+        - in: query
+          name: search
+          required: false
+          schema:
+            type: string
+          description: Termini di ricerca per filtrare le figurine per nome
+      responses:
+        '200':
+          description: Album recuperato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalCards:
+                    type: integer
+                  currentPage:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  album:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_figurina:
+                          type: string
+                        stato:
+                          type: string
+                        updatedAt:
+                          type: string
+                          format: date-time
+        '404':
+          description: Utente non trovato
+        '500':
+          description: Errore interno del server
+  /albums/buyStickerPacks:
+    patch:
+      summary: Acquista pacchetti di figurine
+      description: Permette all'utente di acquistare pacchetti di figurine e aggiungerle al suo album
+      tags:
+        - albums
+      responses:
+        '200':
+          description: Pacchetti di figurine acquistati con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cards:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id_figurina:
+                          type: string
+                        stato:
+                          type: string
+                        updatedAt:
+                          type: string
+                          format: date-time
+        '404':
+          description: Utente non trovato
+        '402':
+          description: Saldo insufficiente
+        '500':
+          description: Errore interno del server
+  /albums/listCard:
+    patch:
+      summary: Elenca una figurina per la vendita
+      description: Permette all'utente di mettere una figurina in vendita
+      tags:
+        - albums
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+      responses:
+        '200':
+          description: Figurina messa in vendita con successo
+        '400':
+          description: ID figurina non valido
+        '404':
+          description: Figurina non trovata o non scambiabile
+        '500':
+          description: Errore interno del server
+  /albums/sellCard:
+    patch:
+      summary: Vendi una figurina
+      description: Permette all'utente di vendere una figurina
+      tags:
+        - albums
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+      responses:
+        '200':
+          description: Figurina venduta con successo
+        '400':
+          description: ID figurina non valido
+        '404':
+          description: Figurina non trovata o non vendibile
+        '500':
+          description: Errore interno del server
+  /albums/unlistCard:
+    patch:
+      summary: Rimuovi una figurina dalla vendita
+      description: Permette all'utente di rimuovere una figurina dalla lista di vendita
+      tags:
+        - albums
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                _id:
+                  type: string
+      responses:
+        '200':
+          description: Figurina rimossa dalla lista di vendita con successo
+        '400':
+          description: ID figurina non valido
+        '404':
+          description: Figurina non trovata o non scambiabile
+        '500':
+          description: Errore interno del server
+
+  /avatars:
+    get:
+      tags:
+        - avatars
+      summary: Ottieni la lista degli avatar
+      description: Recupera tutti gli avatar disponibili nel sistema.
+      operationId: getAvatars
+      responses:
+        '200':
+          description: Lista degli avatar recuperata con successo
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Avatar'
+        '500':
+          description: Errore interno del server
+
+  /characters/{id}:
+    get:
+      tags:
+        - characters
+      summary: Ottieni informazioni su un personaggio Marvel specifico
+      description: Restituisce i dettagli di un personaggio Marvel, come nome, descrizione, serie, eventi e fumetti.
+      operationId: getCharacterInfo
+      parameters:
+        - name: id
+          in: path
+          description: ID del personaggio Marvel da cercare.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dettagli del personaggio trovati con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  character:
+                    type: object
+                    properties:
+                      hero:
+                        type: string
+                        description: Il nome del personaggio
+                      description:
+                        type: string
+                        description: La descrizione del personaggio
+                      image:
+                        type: string
+                        description: URL dell'immagine del personaggio
+                      series:
+                        type: array
+                        items:
+                          type: string
+                        description: Le serie in cui il personaggio appare
+                      events:
+                        type: array
+                        items:
+                          type: string
+                        description: Gli eventi a cui il personaggio partecipa
+                      comics:
+                        type: array
+                        items:
+                          type: string
+                        description: I fumetti in cui il personaggio appare
+        '404':
+          description: Personaggio non trovato
+        '500':
+          description: Errore interno del server
+    Character:
+      type: object
+      properties:
+        hero:
+          type: string
+          description: Il nome del personaggio
+        description:
+          type: string
+          description: La descrizione del personaggio
+        image:
+          type: string
+          description: URL dell'immagine del personaggio
+        series:
+          type: array
+          items:
+            type: string
+          description: Le serie in cui il personaggio appare
+        events:
+          type: array
+          items:
+            type: string
+          description: Gli eventi a cui il personaggio partecipa
+        comics:
+          type: array
+          items:
+            type: string
+          description: I fumetti in cui il personaggio appare
+
+  /offers:
+      get:
+        tags:
+        - offers
+        summary: "Recupera tutte le offerte dell'utente"
+        description: "Permette di ottenere tutte le offerte fatte o ricevute dall'utente."
+        parameters:
+          - name: "page"
+            in: "query"
+            description: "Numero della pagina di risultati da visualizzare."
+            required: false
+            schema:
+              type: "integer"
+              default: 1
+          - name: "limit"
+            in: "query"
+            description: "Numero massimo di offerte da restituire per pagina."
+            required: false
+            schema:
+              type: "integer"
+              default: 18
+          - name: "state"
+            in: "query"
+            description: "Filtra le offerte in base al loro stato."
+            required: false
+            schema:
+              type: "string"
+          - name: "direction"
+            in: "query"
+            description: "Direzione della ricerca delle offerte (ad esempio 'in entrata' o 'in uscita')."
+            required: false
+            schema:
+              type: "string"
+        responses:
+          '200':
+            description: "Lista delle offerte recuperate."
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    totalPages:
+                      type: "integer"
+                    offers:
+                      type: "array"
+                      items:
+                        $ref: "#/components/schemas/Offer"
+          '400':
+            description: "Parametri di richiesta non validi."
+          '500':
+            description: "Errore del server."
+      post:
+        tags:
+        - offers
+        summary: "Aggiungi una nuova offerta"
+        description: "Permette di inviare una proposta di scambio tra due utenti."
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  idFigurineOfferente:
+                    type: "array"
+                    items:
+                      type: "string"
+                  idOfferente:
+                    type: "string"
+                  idFigurineAcquirente:
+                    type: "array"
+                    items:
+                      type: "string"
+        responses:
+          '200':
+            description: "Offerta inviata con successo."
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    offers:
+                      $ref: "#/components/schemas/Offer"
+                    message:
+                      type: "string"
+          '400':
+            description: "Dati non validi o formattazione errata."
+          '500':
+            description: "Errore del server."
+      patch:
+        tags:
+        - offers
+        summary: "Aggiorna lo stato di un'offerta"
+        description: "Permette di aggiornare lo stato di una proposta di scambio."
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  id:
+                    type: "string"
+                  stato:
+                    type: "string"
+                    enum: ["In attesa", "Accettata", "Rifiutata"]
+        responses:
+          '200':
+            description: "Stato dell'offerta aggiornato con successo."
+          '400':
+            description: "Dati non validi."
+          '500':
+            description: "Errore del server."
+  /offers/cardsToOffer/{idOfferente}:
+      get:
+        tags:
+        - offers
+        summary: "Recupera le carte che l'utente può offrire"
+        description: "Permette di ottenere le carte disponibili per l'utente da offrire in scambio."
+        parameters:
+          - name: "idOfferente"
+            in: "path"
+            description: "ID dell'utente che offre le carte."
+            required: true
+            schema:
+              type: "string"
+          - name: "page"
+            in: "query"
+            description: "Numero della pagina di risultati da visualizzare."
+            required: false
+            schema:
+              type: "integer"
+              default: 1
+          - name: "limit"
+            in: "query"
+            description: "Numero massimo di carte da restituire per pagina."
+            required: false
+            schema:
+              type: "integer"
+              default: 18
+          - name: "search"
+            in: "query"
+            description: "Termine di ricerca per filtrare le carte."
+            required: false
+            schema:
+              type: "string"
+        responses:
+          '200':
+            description: "Lista delle carte da offrire."
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    totalPages:
+                      type: "integer"
+                    album:
+                      type: "array"
+                      items:
+                        $ref: "#/components/schemas/Card"
+          '400':
+            description: "ID non valido o parametri di ricerca non validi."
+          '500':
+            description: "Errore del server."
+  /offers/cardsToSelect/{idOfferente}:
+      get:
+        tags:
+        - offers
+        summary: "Recupera le carte che l'utente può selezionare"
+        description: "Permette di ottenere le carte selezionabili da un altro utente in scambio."
+        parameters:
+          - name: "idOfferente"
+            in: "path"
+            description: "ID dell'utente che offre le carte selezionabili."
+            required: true
+            schema:
+              type: "string"
+          - name: "page"
+            in: "query"
+            description: "Numero della pagina di risultati da visualizzare."
+            required: false
+            schema:
+              type: "integer"
+              default: 1
+          - name: "limit"
+            in: "query"
+            description: "Numero massimo di carte da restituire per pagina."
+            required: false
+            schema:
+              type: "integer"
+              default: 18
+          - name: "search"
+            in: "query"
+            description: "Termine di ricerca per filtrare le carte."
+            required: false
+            schema:
+              type: "string"
+        responses:
+          '200':
+            description: "Lista delle carte selezionabili."
+            content:
+              application/json:
+                schema:
+                  type: "object"
+                  properties:
+                    totalPages:
+                      type: "integer"
+                    album:
+                      type: "array"
+                      items:
+                        $ref: "#/components/schemas/Card"
+          '400':
+            description: "ID non valido o parametri di ricerca non validi."
+          '500':
+            description: "Errore del server."
+
+  /payments:
+    get:
+      tags:
+        - payments
+      summary: Recupera i pagamenti in sospeso dell'utente
+      description: Ottieni i dettagli di un pagamento in sospeso per l'utente autenticato.
+      responses:
+        '200':
+          description: Pagamento trovato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payment:
+                    type: object
+                    description: Dettagli del pagamento
+        '404':
+          description: Nessun pagamento trovato
+        '500':
+          description: Errore interno del server
+    post:
+      tags:
+        - payments
+      summary: Crea un nuovo pagamento
+      description: Crea un pagamento tramite PayPal per acquistare crediti, associandolo all'utente autenticato.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                crediti:
+                  type: integer
+                  description: Numero di pacchetti da acquistare
+      responses:
+        '200':
+          description: Pagamento creato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirectUrl:
+                    type: string
+                    description: URL per approvare il pagamento su PayPal
+        '400':
+          description: Numero di crediti insufficiente
+        '500':
+          description: Errore durante la creazione del pagamento
+  /payments/{paymentId}:
+    get:
+      tags:
+        - payments
+      summary: Recupera i dettagli di un pagamento specifico
+      description: Ottieni i dettagli di un pagamento in sospeso utilizzando l'ID del pagamento.
+      parameters:
+        - name: paymentId
+          in: path
+          required: true
+          description: ID del pagamento da recuperare
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pagamento trovato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payment:
+                    type: object
+                    description: Dettagli del pagamento
+        '400':
+          description: ID del pagamento mancante
+        '404':
+          description: Nessun pagamento trovato
+    patch:
+      tags:
+        - payments
+      summary: Completa un pagamento
+      description: Esegui il pagamento su PayPal e aggiorna lo stato nel sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payerId:
+                  type: string
+                  description: ID del pagatore di PayPal
+                paymentId:
+                  type: string
+                  description: ID del pagamento PayPal
+      responses:
+        '200':
+          description: Pagamento completato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Messaggio di conferma
+        '400':
+          description: Dati di pagamento incompleti
+        '404':
+          description: Pagamento non trovato
+        '500':
+          description: Errore durante l'esecuzione del pagamento
+  /payments/success:
+    patch:
+      tags:
+        - payments
+      summary: Gestisci il successo del pagamento
+      description: Gestisci la risposta di PayPal quando il pagamento è stato completato con successo.
+      responses:
+        '200':
+          description: Pagamento completato con successo
+        '400':
+          description: Dati di pagamento mancanti o errati
+        '500':
+          description: Errore interno durante il completamento del pagamento
+  /payments/cancel:
+    patch:
+      tags:
+        - payments
+      summary: Gestisci la cancellazione del pagamento
+      description: Gestisci la risposta di PayPal quando un pagamento è stato cancellato.
+      responses:
+        '200':
+          description: Pagamento cancellato con successo
+        '404':
+          description: Pagamento non trovato
+        '500':
+          description: Errore durante la cancellazione del pagamento
+
+  /users/search/{username}:
+    get:
+      tags:
+        - users
+      summary: Cerca un utente per username
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+          description: Lo username dell'utente da cercare
+      responses:
+        '200':
+          description: Utenti trovati
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                        favoriteHero:
+                          type: string
+        '404':
+          description: Nessun utente trovato
+
+  /users/{id}:
+    get:
+      tags:
+        - users
+      summary: Ottieni informazioni su un utente per ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: L'ID dell'utente da cercare
+      responses:
+        '200':
+          description: Dettagli dell'utente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                      favoriteHero:
+                        type: string
+        '404':
+          description: Utente non trovato
+
+  /users/username/{username}:
+    get:
+      tags:
+        - users
+      summary: Ottieni informazioni su un utente tramite username
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+          description: Lo username dell'utente da cercare
+      responses:
+        '200':
+          description: Dettagli dell'utente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                      favoriteHero:
+                        type: string
+        '404':
+          description: Utente non trovato
+
+  /users:
+    get:
+      tags:
+        - users
+      summary: Ottieni informazioni sull'utente corrente
+      responses:
+        '200':
+          description: Dettagli dell'utente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                      favoriteHero:
+                        type: string
+        '404':
+          description: Utente non trovato
+
+    delete:
+      tags:
+        - users
+      summary: Elimina l'utente corrente
+      requestBody:
+        description: Dati necessari per eliminare l'utente
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Utente eliminato con successo
+        '400':
+          description: La password non è corretta
+        '404':
+          description: Utente non trovato o già eliminato
+
+    patch:
+      tags:
+        - users
+      summary: Aggiorna le informazioni dell'utente
+      requestBody:
+        description: Dati per l'aggiornamento dell'utente
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                favoriteHero:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                oldPassword:
+                  type: string
+                confirmPassword:
+                  type: string
+      responses:
+        '200':
+          description: Informazioni utente aggiornate con successo
+        '400':
+          description: Dati non validi
+        '404':
+          description: Utente non trovato
