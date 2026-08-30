@@ -1,6 +1,6 @@
 # Marvel_PWM
 
-A full-stack web app for browsing the Marvel universe, built for the "Progettazione Web e Mobile" university course.
+A full-stack web app for browsing the Marvel universe, built for the "Web and Mobile Application" university course.
 
 **Live demo:** [marvel-pwm.vercel.app](https://marvel-pwm.vercel.app)
 
