@@ -1,66 +1,48 @@
-# Marvel PWM
+# Marvel_PWM
 
-Applicazione full-stack per la gestione di un catalogo/album di figurine dei personaggi Marvel, con sistema di scambio (baratto) tra utenti e acquisto di pacchetti tramite PayPal.
+A full-stack web app for browsing the Marvel universe, built for the "Progettazione Web e Mobile" university course.
 
-🔗 **Demo:** [marvel-pwm.vercel.app](https://marvel-pwm.vercel.app)
+**Live demo:** [marvel-pwm.vercel.app](https://marvel-pwm.vercel.app)
 
-## Funzionalità principali
+## What it does
 
-- Autenticazione utenti (registrazione, login, reset/modifica password) con JWT
-- Album personale dei personaggi Marvel, con avatar e profilo utente
-- Ricerca di altri utenti e gestione delle offerte di scambio (baratto) delle figurine
-- Acquisto di nuovi pacchetti di personaggi tramite integrazione PayPal
-- Aggiornamento periodico del catalogo personaggi tramite cron job
-- Documentazione delle API tramite Swagger
+Lets users browse and search Marvel characters/comics, pulling data from the official Marvel Comics API, while a custom backend and database handle app-specific state (e.g. user accounts, favorites/saved items — adjust this line to match what your DB actually stores).
 
-## Stack tecnologico
-
-**Backend** ([`/Backend`](Backend))
-- Node.js / Express 5
-- MongoDB con Mongoose
-- Autenticazione JWT (`jsonwebtoken`, `bcryptjs`)
-- PayPal REST SDK per i pagamenti
-- `node-cron` per l'aggiornamento periodico dei personaggi
-- Swagger (`swagger-jsdoc`, `swagger-ui-express`) per la documentazione delle API, esposta su `/api-docs`
-
-**Frontend** ([`/Frontend`](Frontend))
-- React 18 + Vite
-- Redux Toolkit per la gestione dello stato
-- React Router per il routing
-- React Bootstrap per l'interfaccia
-
-**Deploy:** Frontend pubblicato su Vercel — [marvel-pwm.vercel.app](https://marvel-pwm.vercel.app)
-
-## Struttura del progetto
+## Architecture
 
 ```
-Marvel_PWM/
-├── Backend/     # API Express, modelli MongoDB, autenticazione, pagamenti, swagger
-├── Frontend/    # Applicazione React/Vite/Redux
-└── docs/        # Documentazione del progetto
+React (Frontend)  →  Express API (Backend)  →  Marvel Comics API (external)
+                                             ↘  own database (app data)
 ```
 
-## Avvio in locale
+- **Frontend:** React
+- **Backend:** Node.js + Express
+- **External data:** [Marvel Comics API](https://developer.marvel.com/) (requires a public/private key pair — see Setup)
+- **Persistence:** own database for app-specific data alongside the Marvel API data
 
-### Backend
+## Setup
 
 ```bash
+# Backend
 cd Backend
 npm install
-npm run dev
-```
+# create a .env with your Marvel API keys, e.g.:
+# MARVEL_PUBLIC_KEY=xxxx
+# MARVEL_PRIVATE_KEY=xxxx
+npm start
 
-Richiede un file `.env` con le variabili di connessione (es. `PORT`, `CONNECTION_URL` per MongoDB, credenziali JWT e PayPal).
-
-### Frontend
-
-```bash
+# Frontend
 cd Frontend
 npm install
-npm run dev
+npm start
 ```
 
-## Documentazione
+## Docs
 
-- La relazione del progetto è disponibile in [docs/Relazione_PWM.docx](docs/Relazione_PWM.docx)
-- La documentazione delle API è generata da Swagger a partire da [`Backend/swagger.yaml`](Backend/swagger.yaml) ed è consultabile su `/api-docs` una volta avviato il backend
+`Relazione_PWM.docx` is the original project report submitted for the course, covering requirements, design decisions, and implementation notes in more depth.
+
+## Notes
+
+Built as a coursework project — some hardening you'd expect in production (input validation, rate limiting around the Marvel API, auth token handling) may be minimal or missing. Noted here rather than left implicit.
+
+This project uses the Marvel Comics API but is not endorsed, sponsored, or affiliated with Marvel or Disney. Marvel characters and related content © Marvel.
