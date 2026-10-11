@@ -6,7 +6,7 @@ A full-stack web app for browsing the Marvel universe, built for the "Web and Mo
 
 ## What it does
 
-Lets users browse and search Marvel characters/comics, pulling data from the official Marvel Comics API, while a custom backend and database handle app-specific state (e.g. user accounts, favorites/saved items — adjust this line to match what your DB actually stores).
+Lets users browse and search Marvel characters/comics, pulling data from the official Marvel Comics API, while a custom backend and database handle app-specific state (e.g. user accounts, cards info, ...).
 
 ## Architecture
 
